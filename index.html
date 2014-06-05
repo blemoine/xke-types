@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Ce type ne me revient pas !</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+        <style>
+            pre.mini {
+                font-size: .48em;
+            }
+
+            ul.dialog{
+                list-style-type: none;
+            }
+
+            ul.dialog .static {
+                text-align: left;
+                margin-right:100px;
+            }
+
+
+
+            ul.dialog .dynamic {
+                text-align: right;
+                margin-left:100px;
+            }
+
+            ul.dialog  .static img,  ul.dialog .dynamic img{
+                margin: 0;
+                padding: 0;
+                border: 0;
+                font-size: 100%;
+                font: inherit;
+                vertical-align: baseline;
+                background-color: transparent;
+                outline: none;
+            }
+
+            ul.dialog  .static img {
+
+            }
+
+
+        </style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Ce type ne me revient pas&nbsp;!</h1>
+				</section>
+
+                <section>
+                    <h2>Qu'est qu'un système de type&nbsp;?</h2>
+                    <ul>
+                        <li class="fragment">Meta information attachée à une structure du langage</li>
+                        <li class="fragment">Variable, fonction, expression ou module</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Un type défini l'ensemble des valeurs possibles</h2>
+                    <pre><code>//Attention code Groovy, parce que ca ressemble à Java en plus court !
+
+//Type COLOR, 3 valeurs possibles
+enum COLOR {
+    RED, BLUE, YELLOW
+}
+
+// Type Name, une infinité de valeur possibles
+// L'ensemble de ses valeurs est isomorphe à l'ensemble des Strings
+class Name {
+    String value
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Un type défini quelles sont les opérations qui lui sont applicables</h2>
+                    <pre><code>
+class Name {
+    String value
+
+    //Définition "interne"
+    Name lordify() {
+         return new Name(value:'sir ' + this.value)
+    }
+}
+
+class Lordificator {
+
+      //Définition "externe"
+      static Name lordify(Name name) {
+          return new Name(value:'sir ' + name.value)
+      }
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Un type défini la façon dont est stockée la donnée</h2>
+                    <pre><code>
+                        Float in32bit = 6.5f // sur 32 bits
+                        Double in64bit = 6.5 // sur 64 bits
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Un type défini le <em>sens</em> de la donnée</h2>
+                    <pre><code>
+class Person {
+     //Plus de sens qu'une simple String
+     //Car on peut de cette façon limiter les opérations faisables
+     Name name
+}
+                    </code></pre>
+                </section>
+
+
+                <section>
+                    <h2>Pourquoi un système de type&nbsp;?</h2>
+                    <ul>
+                        <li class="fragment">Définir des interfaces entres les "morceaux" d'un programme</li>
+                        <li class="fragment">Ainsi diminuer les bugs en s'assurant que les morceaux sont connectés
+                        de façon cohérente</li>
+                        <li class="fragment">Lisibilité</li>
+                        <li class="fragment">Optimisations</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>La vérification de type peut se faire</h2>
+                    <ul>
+                        <li>Au moment de la compilation (vérification statique)</li>
+                        <li>Au moment de l'exécution (vérification dynamique)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Le typage statique</h2>
+                    <ul>
+                        <li>La vérification de la validité du programme se fait à la compilation.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Le typage statique</h2>
+                    <p>Un système de typage statique pour un langage Turing-Complet doit&nbsp;:</p>
+                    <ul>
+                        <li class="fragment">être "<em>sound</em>"&nbsp;: rejeter les programmes invalides</li>
+                        <li class="fragment">être décidable&nbsp;: il est possible d'écrire un algorithme déterminant
+                            si le programme est bien typé</li>
+                    </ul>
+
+
+                </section>
+
+                <section>
+                    <h2>Limite du typage statique</h2>
+                    <ul>
+                        <li class="fragment">il est toujours possible d'écrire un programme "juste"
+                            mais qui sera rejeté par le compilateur
+                            (la preuve dérive du theorème d'incomplétude de Gödel)</li>
+                        <li class="fragment">Certaines fonctionnalités ne peuvent pas être vérifiées (downcasting, par exemple)</li>
+                    </ul>
+                </section>
+
+                <section >
+                    <h2>Java n'a pas un compilateur très puissant</h2>
+                    <pre><code>
+//Ne compile pas
+public class Exemple {
+    static Integer getIntOrZero(Object obj) {
+        if (obj instanceof Integer) {
+            return obj;
+        } else {
+            return 0;
+        }
+    }
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Quelques langages statiquement typés</h2>
+                    <ul>
+                        <li>Java</li>
+                        <li>Scala</li>
+                        <li>Ceylon</li>
+                        <li>Kotlin</li>
+                        <li>C</li>
+                        <li>C++</li>
+                        <li>Haskell</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Le typage dynamique</h2>
+                    <ul>
+                        <li>La vérification de la validité du programme se fait à l'exécution</li>
+                        <li class="fragment">Pour ce faire, on utilise généralement un système de RTTI</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>RTTI</h2>
+                    <h3>Aka Run-Time Type Information</h3>
+                    <ul>
+                        <li>Concept hérité du C++</li>
+                        <li>Permet de récupérer les informations de type à l'exécution</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Apport du typage dynamique&nbsp;: le <em>Dynamic Dispatch</em></h2>
+                    <pre class="mini"><code>class Human {}
+
+class Troll extends Human {}
+
+public class Main {
+    public static void speak(Human h) {
+        System.out.println("Raconte des choses passionantes");
+    }
+
+    public static void speak(Troll h) {
+        System.out.println("Emacs c'est nul comparé à vim");
+    }
+
+    public static void main(String[] args) {
+        Human h = new Troll();
+        speak(h);
+        // En Java : la phrase d'humain normal
+        // En groovy : la phrase de troll
+    }
+}</code></pre>
+                </section>
+
+                <section>
+                    <h2>Apport du typage dynamique&nbsp;:<em>Late Binding</em></h2>
+                    <ul>
+                        <li class="fragment">Late Binding = objet sur lequel on appelle la méthode</li>
+                        <li class="fragment">Dynamic dispatch = quelle méthode on appelle</li>
+                        <li class="fragment">N'existe donc pas vraiment Java</li>
+                    </ul>
+                    <pre class="mini fragment"><code class="javascript">
+function makeTheDuckQuack(duck) {
+     //Ici le type de duck est inconnu,
+     //On ne le connaitra qu'à l'execution
+     duck.quack();
+}
+
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Apport du typage dynamique&nbsp;:la réflexion</h2>
+                    <ul>
+                        <li>Pour pouvoir faire de la réflexion il faut connaitre les types au runtime&nbsp;!</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Mais en Java, on peut faire de la réflexion&nbsp;!</h2>
+                    <h3 class="fragment">C'est un langage à typage statique, non&nbsp;?</h3>
+                </section>
+
+                <section>
+                    <h2>Aspect Hybride</h2>
+                    <ul>
+                        <li class="fragment">La grand majorité des langages <i>modernes</i> à typage statique ont aussi une partie dynamique</li>
+                    </ul>
+                    <pre class="fragment"><code>
+public Integer castToInt(Number num) {
+        return (Integer) num;
+}
+//Le code ci-dessus renvoie une ClassCastException
+//si le type de num n'est pas Integer
+//Le type de num est donc accessible au runtime !
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Quelques langages au typage purement dynamique</h2>
+                    <ul>
+                        <li>Groovy</li>
+                        <li>Clojure</li>
+                        <li>JavaScript</li>
+                        <li>PHP</li>
+                    </ul>
+                </section>
+
+                <section>
+
+                    <h2>Static vs Dynamic</h2>
+                    <ul class="dialog">
+                        <li class="fragment static">Détection au plus tôt des bugs de type...</li>
+                        <li class="fragment dynamic">... même si ces bugs n'arrivent que rarement</li>
+                        <li class="fragment static">Oui, mais tous les bugs peuvent être considérés comme des erreurs de type...</li>
+                        <li class="fragment dynamic">... du moment que l'on utilise un langage avec un système de type suffisament puissant</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Static vs Dynamic</h2>
+                    <ul class="dialog">
+                        <li class="fragment static">Le typage statique permet au compilateur de faire des optimisations...</li>
+                        <li class="fragment dynamic">... certains langages dynamiques permettent donc des annotations pour aider le compilateur</li>
+                        <li class="fragment dynamic">Le typage dynamique permet au compilateur d'être plus rapide et de recharger à chaud ce qui diminue le temps de cycle</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Static vs Dynamic</h2>
+                    <ul class="dialog">
+                        <li class="fragment static">La déclaration de type sert de documentation dans le code...</li>
+                        <li class="fragment dynamic">... mais sans inférence de type, elle diminue la lisibilité</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Static vs Dynamic</h2>
+                    <ul class="dialog">
+                        <li class="fragment dynamic">Les langages dynamiques permettent la metaprogrammation...</li>
+                        <li class="fragment static">... meme si certains langages statiques possèdent des API de réflexion</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Enfonçons le clou</h2>
+                    <ul>
+                        <li class="fragment">Un langage à typage dynamique impose que ses structures aient un type&nbsp;!</li>
+                        <li class="fragment">Il y a donc bien des types en JS et PHP</li>
+                        <li class="fragment">ASM, Brainfuck ou Whitespace sont des langages sans types</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Typage explicite vs implicite</h2>
+                    <pre><code>//Java
+String explicit = "je suis explicitement une string";
+
+//Scala
+val implicit = "je suis implicitement une string"
+                    </code></pre>
+
+
+                    <pre><code class="haskell">-- haskell
+let add x y = x + y
+:info add
+-- renvoie add :: Num a => a -> a -> a
+-- l'utilisation de + a permis de typer implicitement les paramètres de add
+
+                    </code></pre>
+                </section>
+
+
+                <section>
+                    <h2>Interlude troll</h2>
+                    <h3>le typage faible et le typage fort</h3>
+                </section>
+
+                <section>
+                    <h2>Un langage aurait un typage plus faible qu'un autre si&nbsp;:</h2>
+                    <ul>
+                        <li class="fragment">Il permet les conversions implicites</li>
+                        <li class="fragment">Il permet l'arithmétique sur les pointeurs</li>
+                        <li class="fragment">Il ne compile pas statiquement</li>
+                        <li class="fragment">Il compile statiquement mais permet les erreurs de type au runtime</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p>Certains auteurs argueront qu'un langage dynamiquement typé est par essence fortement typé</p>
+                    <p class="fragment">Car chaque structure a un type, qui est checké au runtime</p>
+                    <p class="fragment">Par opposition au C, par exemple, ou les types ne sont présent qu'à la compilation</p>
+                </section>
+
+                <section>
+                    <p>D'autres argueront qu'un langage avec downcast est faiblement typé</p>
+                    <p class="fragment">Car on peut avoir des erreurs de type au runtime</p>
+                </section>
+
+                <section>
+                    <h2>Exemple de code considéré comme typé faiblement (en C)</h2>
+                    <pre><code>
+//C'était trop facile d'écrire x < 0.0
+bool is_negative(float x) {
+    unsigned int *ui = (unsigned int *)&amp;x;
+    return (*ui & 0x80000000) != 0;
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Autre exemple de code considéré comme typé faiblement (en Scala)</h2>
+                    <pre><code>
+def isNegative(x:Number):Boolean = x.asInstanceOf[Float] < 0.0
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Fin de l'interlude troll</h2>
+                    <ul>
+                        <li>Toujours préférer d'autres termes que <em>fort</em> & <em>faible</em></li>
+                        <li class="fragment">Sauf si l'objectif est d'envenimer un débat</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Le typage structurel</h2>
+                    <ul>
+                        <li class="fragment">La compatibilité de type est donnée par la structure et non par une déclaration explicite</li>
+                        <li class="fragment">Par opposition au système de type nominatif</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemple en TypeScript</h2>
+    <pre><code>
+interface Point {
+    x:number
+    y:number
+}
+
+function printPoint(p:Point) {
+    console.log('('+p.x+','+p.y+')')
+}
+
+printPoint({x:1, y:2})
+</code></pre>
+                </section>
+
+                <section>
+                    <h2>Quelques langages typés structurellement</h2>
+                    <ul>
+                        <li>Haskell</li>
+                        <li>OCaml</li>
+                        <li>TypeScript</li>
+                        <li>Dart</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Le Duck Typing</h2>
+                    <ul>
+                        <li class="fragment">Typage structurel appliqué aux langages dynamiques</li>
+                        <li class="fragment">Si ca marche comme un canard, nage comme un canard et
+                            caquette comme un canard, alors c'est un canard</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemple en ES6</h2>
+                    <pre class="mini"><code>function makeTheDuckQuack(duck) {
+    duck.quack();
+}
+
+class Duck {
+    quack() {
+        console.log('coin coin');
+    }
+}
+
+class Unicorn { }
+
+makeTheDuckQuack(new Duck()); //coin coin
+
+var unicorn = new Unicorn();
+unicorn.quack = function() { console.log('COIN COIN'); };
+makeTheDuckQuack(unicorn); // COIN COIN
+
+makeTheDuckQuack(new Unicorn()); // type error
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Quelques langages incluant Duck Typing</h2>
+                    <ul>
+                        <li>Clojure</li>
+                        <li>JavaScript</li>
+                        <li>Groovy</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Direction l'utopie&nbsp;!</h2>
+                    <h3>ou la dystopie, ca dépend du point de vue</h3>
+                </section>
+
+
+                <section>
+                    <h2>Le typage graduel</h2>
+                    <ul>
+                        <li class="fragment">Permet au développeur de typer au choix à la compilation ou à l'execution</li>
+                        <li class="fragment">Souvent confondu avec le typage optionnel (qui permet de désactiver le type checking)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Un peu de théorie</h2>
+                    <ul>
+                        <li class="fragment">La compatibilité de type se fait par <em>consistance</em> ( ~ ) et pas par égalité</li>
+                        <li class="fragment">La consistance est la comparaison sur les parties du type qui sont connues</li>
+                        <li class="fragment">Il existe un type "joker" ?, qui n'est pas un sous-type ou un super-type</li>
+                        <li class="fragment">On a par exemple (? ~ bool), (int ~ ?) mais pas (int ~ bool)</li>
+                        <li class="fragment">~ est reflexif, symétrique mais PAS transitif</li>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <h2>Exemple hypothétique</h2>
+                    <pre><code>//On suppose un langage sans inférence
+var a:string = "42";
+var b = a;
+var c:string = b;
+                    </code></pre>
+                </section>
+
+
+                <section>
+                    <h2>Pourquoi Dart n'est pas graduellement typé</h2>
+                    <pre><code class="dart">//Dart, en mode uncheck, ca compile
+class Animal{}
+class Dog extends Animal {
+    waf() { print('waf'); }
+}
+
+Animal id(Animal a) {
+    return a;
+}
+
+Animal a = id(new Animal());
+Dog a2 = id(new Animal());
+a2.waf();</code></pre>
+                </section>
+
+                <section>
+                    <h2>Pourquoi TypeScript est presque réellement graduellement typé</h2>
+                    <pre><code class="javascript">
+function display(y : string) {
+    document.body.innerHTML = y.charAt(0);
+    // error au runtime: charAt is undefined, pas de check du type au runtime
+}
+
+var x : any = 3;
+display(x);
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Le typage dépendant</h2>
+                    <p>Un "type dépendant" est un type dépendant d'une valeur définie</p>
+                </section>
+
+                <section>
+                    <h2>Exemples</h2>
+                    <ul>
+                        <li class="fragment">Un Type "Nombre Entier compris entre 0 et n"</li>
+                        <li class="fragment">Un type List indiquant la taille de la liste</li>
+                        <li class="fragment">Un type Matrix indiquant la hauteur et la largeur de la matrice</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Les génériques ne forment pas des types dépendants</h2>
+                    <ul>
+                        <li>Un Type générique est un type paramétré par un autre type</li>
+                        <li>Un Type dépendant est un type paramétré par une valeur d'un autre type</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemples de languages implémentant les types dépendants</h2>
+                    <ul>
+                        <li>Idris</li>
+                        <li>Agda</li>
+                        <li>Coq</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemples (en Idris)</h2>
+                    <pre><code class="haskell">
+Vect.index 2 [3,4,5] -- renvoit 5
+Vect.index 3 [3,4,5] -- ne compile pas
+
+
+-- [3, 4, 5] est de type Vect 3 Integer
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Programmation de type</h2>
+                    <pre><code class="haskell">
+-- Définition recursive de liste dépendante
+data Vect : Nat -> Type -> Type where
+    Nil  : Vect Z a
+    (::) : (x : a) -> (xs : Vect n a) -> Vect (S n) a
+
+-- [1,2,3] est alias de Nil :: 1 :: 2 :: 3 est donc de type Vect 3 Integer
+                        </code></pre>
+                </section>
+
+                <section>
+                    <h2>Programmation de type </h2>
+                    <pre><code class="haskell">
+-- Définition inductive de matrice dépendante
+
+Matrix: Type -> Nat -> Nat -> Type
+Matrix a n m = Vect n (Vect m a)
+
+-- [[1,0], [5,3]] est alors de type Matrix Integer 2 2
+                    </code></pre>
+                </section>
+
+
+                <section>
+                    <h2>Le type Union</h2>
+                    <ul>
+                        <li>Permet de réprésenter un objet qui est "d'un type ou d'un autre"</li>
+                        <li>Appel aux méthodes communes aux types unis uniquement</li>
+                        <li class="fragment">Encodage des types "arborescents"&nbsp;: XML, JSON, etc.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemple de type union, en Ceylon</h2>
+                    <pre><code class="java">
+Integer|Float x = -1;
+Number num = x;
+
+//Par contre , ci-dessous ne compile pas
+String|Integer|Float x = -1;
+Number num = x;
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Le type Intersection</h2>
+                    <ul>
+                        <li>Permet de réprésenter un objet qui est "d'un type et d'un autre"</li>
+                        <li>Appel aux méthodes de chacun des types</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemple de type intersection, en Ceylon</h2>
+                    <pre><code class="java">
+Iterable&lt;String&gt;&Correspondence&lt;Integer,String&gt; strings = ["hello", "world"];
+String? str = strings.get(0);  //call get() of Correspondence
+Integer size = strings.size;  //call size of Iterable
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Exemple en ℂDuce</h2>
+                    <pre><code>
+let add ( (Int,Int)->Int ; (String,String)->String )
+| (x & Int, y & Int) -> x+y
+| (x & String, y & String) -> x@y ;;
+                    </code></pre>
+                </section>
+
+
+                <section>
+                    <h2>Effect System</h2>
+                    <ul>
+                        <li class="fragment">Un <em>Effect System</em> est une extension d'un système de type</li>
+                        <li class="fragment">Elle permet d'encoder dans le système de type les effets de bord d'une fonction</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemple d'utilisation</h2>
+                    <ul>
+                        <li class="fragment">Une fonction me permet d'ouvrir un "handle" sur un fichier</li>
+                        <li class="fragment">Je peux le manipuler</li>
+                        <li class="fragment">Je ferme le fichier</li>
+                        <li class="fragment">Le compilateur empeche dorénavant toute manipulation du contenu du fichier</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>Des questions&nbsp;?</h1>
+                </section>
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
