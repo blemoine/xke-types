@@ -83,7 +83,7 @@
                     <h2>Qu'est qu'un système de type&nbsp;?</h2>
                     <ul>
                         <li class="fragment">Meta information attachée à une structure du langage</li>
-                        <li class="fragment">Variable, fonction, expression ou module</li>
+                        <li class="fragment">Variable, fonction, expression ou module</li>                        
                     </ul>
                 </section>
 
@@ -304,17 +304,16 @@ public Integer castToInt(Number num) {
 }
 //Le code ci-dessus renvoie une ClassCastException
 //si le type de num n'est pas Integer
-//Le type de num est donc accessible au runtime !
+//Le type de num est donc accessible et vérifié au runtime !
                     </code></pre>
                 </section>
 
                 <section>
-                    <h2>Quelques langages au typage purement dynamique</h2>
+                    <h2>Quelques langages mettant en avant le typage dynamique</h2>
                     <ul>
                         <li>Groovy</li>
                         <li>Clojure</li>
                         <li>JavaScript</li>
-                        <li>PHP</li>
                     </ul>
                 </section>
 
@@ -516,6 +515,44 @@ makeTheDuckQuack(new Unicorn()); // type error
                     <h3>ou la dystopie, ca dépend du point de vue</h3>
                 </section>
 
+                <section>
+                    <h2>Le type Union</h2>
+                    <ul>
+                        <li>Permet de réprésenter un objet qui est "d'un type ou d'un autre"</li>
+                        <li>Appel aux méthodes communes aux types unis uniquement</li>
+                        <li class="fragment">Encodage des types "arborescents"&nbsp;: XML, JSON, etc.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemple de type union, en Ceylon</h2>
+                    <pre><code class="java">
+Integer|Float x = -1;
+Number num = x;
+
+//Par contre , ci-dessous ne compile pas
+String|Integer|Float x = -1;
+Number num = x;
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Le type Intersection</h2>
+                    <ul>
+                        <li>Permet de réprésenter un objet qui est "d'un type et d'un autre"</li>
+                        <li>Appel aux méthodes de chacun des types</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemple de type intersection, en Ceylon</h2>
+                    <pre><code class="java">
+Iterable&lt;String&gt;&Correspondence&lt;Integer,String&gt; strings = ["hello", "world"];
+String? str = strings.get(0);  //call get() of Correspondence
+Integer size = strings.size;  //call size of Iterable
+                    </code></pre>
+                </section>
+
 
                 <section>
                     <h2>Le typage graduel</h2>
@@ -644,44 +681,8 @@ Matrix a n m = Vect n (Vect m a)
                 </section>
 
 
-                <section>
-                    <h2>Le type Union</h2>
-                    <ul>
-                        <li>Permet de réprésenter un objet qui est "d'un type ou d'un autre"</li>
-                        <li>Appel aux méthodes communes aux types unis uniquement</li>
-                        <li class="fragment">Encodage des types "arborescents"&nbsp;: XML, JSON, etc.</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>Exemple de type union, en Ceylon</h2>
-                    <pre><code class="java">
-Integer|Float x = -1;
-Number num = x;
-
-//Par contre , ci-dessous ne compile pas
-String|Integer|Float x = -1;
-Number num = x;
-                    </code></pre>
-                </section>
-
-                <section>
-                    <h2>Le type Intersection</h2>
-                    <ul>
-                        <li>Permet de réprésenter un objet qui est "d'un type et d'un autre"</li>
-                        <li>Appel aux méthodes de chacun des types</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>Exemple de type intersection, en Ceylon</h2>
-                    <pre><code class="java">
-Iterable&lt;String&gt;&Correspondence&lt;Integer,String&gt; strings = ["hello", "world"];
-String? str = strings.get(0);  //call get() of Correspondence
-Integer size = strings.size;  //call size of Iterable
-                    </code></pre>
-                </section>
-
+                
+<!--
                 <section>
                     <h2>Exemple en ℂDuce</h2>
                     <pre><code>
@@ -709,7 +710,7 @@ let add ( (Int,Int)->Int ; (String,String)->String )
                         <li class="fragment">Le compilateur empeche dorénavant toute manipulation du contenu du fichier</li>
                     </ul>
                 </section>
-
+-->
                 <section>
                     <h1>Des questions&nbsp;?</h1>
                 </section>
