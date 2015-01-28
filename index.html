@@ -97,7 +97,6 @@ enum COLOR {
 }
 
 // Type Name, une infinité de valeur possibles
-// L'ensemble de ses valeurs est isomorphe à l'ensemble des Strings
 class Name {
     String value
 }
@@ -164,14 +163,14 @@ class Person {
                         <li>Au moment de l'exécution (vérification dynamique)</li>
                     </ul>
                 </section>
-
+<!--
                 <section>
                     <h2>Le typage statique</h2>
                     <ul>
                         <li>La vérification de la validité du programme se fait à la compilation.</li>
                     </ul>
                 </section>
-
+-->
                 <section>
                     <h2>Le typage statique</h2>
                     <p>Un système de typage statique pour un langage Turing-Complet doit&nbsp;:</p>
@@ -226,17 +225,7 @@ public class Exemple {
                 <section>
                     <h2>Le typage dynamique</h2>
                     <ul>
-                        <li>La vérification de la validité du programme se fait à l'exécution</li>
-                        <li class="fragment">Pour ce faire, on utilise généralement un système de RTTI</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>RTTI</h2>
-                    <h3>Aka Run-Time Type Information</h3>
-                    <ul>
-                        <li>Concept hérité du C++</li>
-                        <li>Permet de récupérer les informations de type à l'exécution</li>
+                        <li>La vérification de la validité du programme se fait à l'exécution</li>                       
                     </ul>
                 </section>
 
@@ -383,8 +372,9 @@ let add x y = x + y
 
 
                 <section>
-                    <h2>Interlude troll</h2>
+                    <h2>Interlude</h2>
                     <h3>le typage faible et le typage fort</h3>
+                    <img src="images/TrollFace.png" />
                 </section>
 
                 <section>
@@ -396,7 +386,23 @@ let add x y = x + y
                         <li class="fragment">Il compile statiquement mais permet les erreurs de type au runtime</li>
                     </ul>
                 </section>
+                <section>
+                    <h2>Exemple de langage fortement typé : JavaScript</h2>
+                    <pre><code>
+var aNumber = 3;
+function add(a, b) {
+    return a + b;
+}
+                    </code></pre>
+                </section>
 
+                 <section>
+                    <h2>Exemple de langage faiblement typé : Scala</h2>
+                  <pre><code>
+def isNegative(x:Number):Boolean = x.asInstanceOf[Float] < 0.0
+                    </code></pre>
+                </section>
+<!--
                 <section>
                     <p>Certains auteurs argueront qu'un langage dynamiquement typé est par essence fortement typé</p>
                     <p class="fragment">Car chaque structure a un type, qui est checké au runtime</p>
@@ -425,9 +431,9 @@ bool is_negative(float x) {
 def isNegative(x:Number):Boolean = x.asInstanceOf[Float] < 0.0
                     </code></pre>
                 </section>
-
+-->
                 <section>
-                    <h2>Fin de l'interlude troll</h2>
+                    <h2>Fin de l'interlude</h2>
                     <ul>
                         <li>Toujours préférer d'autres termes que <em>fort</em> & <em>faible</em></li>
                         <li class="fragment">Sauf si l'objectif est d'envenimer un débat</li>
@@ -465,6 +471,7 @@ printPoint({x:1, y:2})
                         <li>OCaml</li>
                         <li>TypeScript</li>
                         <li>Dart</li>
+                        <li>Scala*</li>
                     </ul>
                 </section>
 
@@ -511,10 +518,10 @@ makeTheDuckQuack(new Unicorn()); // type error
                 </section>
 
                 <section>
-                    <h2>Direction l'utopie&nbsp;!</h2>
-                    <h3>ou la dystopie, ca dépend du point de vue</h3>
+                    <h2>Le futur</h2>
+                    
                 </section>
-
+<!--
                 <section>
                     <h2>Le type Union</h2>
                     <ul>
@@ -553,15 +560,16 @@ Integer size = strings.size;  //call size of Iterable
                     </code></pre>
                 </section>
 
-
+-->
                 <section>
                     <h2>Le typage graduel</h2>
                     <ul>
                         <li class="fragment">Permet au développeur de typer au choix à la compilation ou à l'execution</li>
                         <li class="fragment">Souvent confondu avec le typage optionnel (qui permet de désactiver le type checking)</li>
+                        <li class="fragment">Utilisation d'un type joker <em>any</em></li>
                     </ul>
                 </section>
-
+<!--
                 <section>
                     <h2>Un peu de théorie</h2>
                     <ul>
@@ -600,7 +608,7 @@ Animal a = id(new Animal());
 Dog a2 = id(new Animal());
 a2.waf();</code></pre>
                 </section>
-
+-->
                 <section>
                     <h2>Pourquoi TypeScript est presque réellement graduellement typé</h2>
                     <pre><code class="javascript">
@@ -627,7 +635,7 @@ display(x);
                         <li class="fragment">Un type Matrix indiquant la hauteur et la largeur de la matrice</li>
                     </ul>
                 </section>
-
+<!--
                 <section>
                     <h2>Les génériques ne forment pas des types dépendants</h2>
                     <ul>
@@ -635,13 +643,14 @@ display(x);
                         <li>Un Type dépendant est un type paramétré par une valeur d'un autre type</li>
                     </ul>
                 </section>
-
+-->
                 <section>
                     <h2>Exemples de languages implémentant les types dépendants</h2>
                     <ul>
                         <li>Idris</li>
                         <li>Agda</li>
                         <li>Coq</li>
+                        <li>Scala*</li>
                     </ul>
                 </section>
 
@@ -655,7 +664,7 @@ Vect.index 3 [3,4,5] -- ne compile pas
 -- [3, 4, 5] est de type Vect 3 Integer
                     </code></pre>
                 </section>
-
+<!--
                 <section>
                     <h2>Programmation de type</h2>
                     <pre><code class="haskell">
@@ -679,7 +688,7 @@ Matrix a n m = Vect n (Vect m a)
 -- [[1,0], [5,3]] est alors de type Matrix Integer 2 2
                     </code></pre>
                 </section>
-
+-->
 
                 
 <!--
